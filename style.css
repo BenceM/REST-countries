@@ -42,6 +42,9 @@ body {
 	line-height: 1;
 	font-weight: 300;
 }
+.hidden {
+	display: none;
+}
 
 /**************************/
 /*********HEADER**********/
@@ -59,6 +62,7 @@ body {
 	gap: 0.8rem;
 	font-size: 1.6rem;
 	border: none;
+	cursor: pointer;
 }
 .dark-mode-button p {
 	font-weight: 300;
@@ -70,3 +74,7 @@ body {
 /**************************/
 /*****SITE NAVIGATION******/
 /**************************/
+
+.select-placeholder {
+	display: flex;
+}
