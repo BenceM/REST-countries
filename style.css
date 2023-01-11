@@ -22,6 +22,10 @@ The designs were created to the following widths:
 - Font sizes (px)
 10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
 
+- Spacing system (px)
+2 / 4 / 8 /10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+
 ## Icons
 - [Ionicons](https://ionicons.com)
 */
@@ -41,9 +45,22 @@ body {
 	font-family: "Nunito Sans", sans-serif;
 	line-height: 1;
 	font-weight: 300;
+	color: hsl(200, 15%, 8%);
 }
+.main {
+	background-color: hsl(0, 0%, 98%);
+	height: 100vh;
+	padding: 3rem;
+}
+
 .hidden {
 	display: none;
+}
+.round-border {
+	border-radius: 6px;
+}
+.box-shadow {
+	box-shadow: 0 0 1rem rgba(120, 120, 120, 0.202);
 }
 
 /**************************/
@@ -53,8 +70,13 @@ body {
 .header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 4.4rem 2.4rem;
-	box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.2);
+	background-color: #fff;
+	box-shadow: 0 0 0.5rem rgba(80, 80, 80, 0.2);
+	width: 100%;
+	overflow: visible;
+	position: relative;
 }
 .dark-mode-button {
 	display: flex;
@@ -67,14 +89,65 @@ body {
 .dark-mode-button p {
 	font-weight: 300;
 }
-.dark-mode-text {
-	font-weight: 300;
-}
 
 /**************************/
 /*****SITE NAVIGATION******/
 /**************************/
 
-.select-placeholder {
+.navigation {
 	display: flex;
+	flex-direction: column;
+	gap: 4.8rem;
+}
+
+.search-box {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+	background-color: #fff;
+	color: hsl(0, 0%, 52%);
+	font-size: 2.4rem;
+	padding: 1.6rem 3.2rem;
+
+	width: 50rem;
+}
+input[type="search"] {
+	border: none;
+	background-color: #fff;
+	color: hsl(0, 0%, 52%);
+	padding-left: 1rem;
+	font-size: 2rem;
+	line-height: 3.6rem;
+	width: 100%;
+}
+input[type="search"]::placeholder {
+	color: hsla(0, 0%, 52%, 0.444);
+}
+
+.select {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	font-size: 1.6rem;
+	cursor: pointer;
+	width: 25rem;
+	font-weight: 600;
+}
+.select-placeholder {
+	background-color: #fff;
+	display: flex;
+	justify-content: space-between;
+	padding: 2.4rem;
+}
+.select-options {
+	list-style: none;
+	top: 40rem;
+	left: 0;
+	width: 100%;
+	background-color: #fff;
+	padding: 10px 0;
+}
+.select-options li {
+	line-height: 2;
+	padding-left: 2.4rem;
 }
