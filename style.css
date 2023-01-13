@@ -54,7 +54,8 @@ body {
 }
 
 .hidden {
-	display: none !important;
+	opacity: 0;
+	visibility: hidden;
 }
 .round-border {
 	border-radius: 6px;
@@ -151,6 +152,7 @@ input[type="search"]::placeholder {
 	background-color: #fff;
 	padding: 2rem 1rem;
 	position: absolute;
+	transition: all 0.3s ease-in-out;
 }
 .select-options li {
 	padding-left: 2.4rem;
