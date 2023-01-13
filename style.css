@@ -54,7 +54,7 @@ body {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 .round-border {
 	border-radius: 6px;
