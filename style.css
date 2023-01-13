@@ -132,6 +132,7 @@ input[type="search"]::placeholder {
 	cursor: pointer;
 	width: 25rem;
 	font-weight: 600;
+	position: relative;
 }
 .select-placeholder {
 	background-color: #fff;
@@ -141,13 +142,48 @@ input[type="search"]::placeholder {
 }
 .select-options {
 	list-style: none;
-	top: 40rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.6rem;
+	top: 7rem;
 	left: 0;
 	width: 100%;
 	background-color: #fff;
-	padding: 10px 0;
+	padding: 2rem 1rem;
+	position: absolute;
 }
 .select-options li {
-	line-height: 2;
 	padding-left: 2.4rem;
+}
+
+.country {
+	background-color: #fff;
+	box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
+	font-size: 1.8rem;
+	width: 30rem;
+	border-radius: 0.7rem;
+	margin: 3.6rem 5.4rem;
+}
+.country-img {
+	width: 30rem;
+	height: 17rem;
+	object-fit: cover;
+	background-color: #eee;
+	border-top-left-radius: 0.7rem;
+	border-top-right-radius: 0.7rem;
+}
+.country-data {
+	padding: 2.5rem 3.75rem 3rem 3.75rem;
+}
+.country-data p span {
+	font-weight: 600;
+}
+.country-name {
+	margin-bottom: 2.5rem;
+}
+.country-line {
+	margin-bottom: 1.2rem;
+}
+.country-line:last-child {
+	margin-bottom: 4.2rem;
 }
