@@ -56,7 +56,7 @@ body {
 }
 .main {
 	background-color: var(--main-background);
-	height: 100vh;
+	height: auto;
 	padding: 3rem;
 }
 

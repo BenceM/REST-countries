@@ -42,6 +42,46 @@ const darkModeToggle = function () {
 	}
 };
 
+//API CALL ALL
+
+const getCountryData = async () => {
+	try {
+		const res = await fetch("https://restcountries.com/v3.1/all");
+		const data = await res.json();
+
+		if (!res.ok) {
+			console.log(data.description);
+			return;
+		}
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+//COUNTRY DATA PARSE AND RENDER
+const renderCountryData = async function () {
+	const data = await getCountryData();
+	console.log(data);
+	for (const country in data) {
+		const html = `
+			<article class="country">
+				<img class="country-img" src=${data[country].flags.png} />
+				<div class="country-data">
+					<h3 class="country-name">${data[country].name.common}</h3>
+					<p class="country-line"><span>Population:</span> ${data[country].population}</p>
+					<p class="country-line county-region"><span>Region:</span> ${
+						data[country].region
+					}</p>
+					<p class="country-line"><span>Capital:</span> ${
+						data[country].capital?.[0] ?? "None"
+					}</p>
+				</div>
+			</article>`;
+		countries.insertAdjacentHTML("beforeend", html);
+	}
+};
 //EVENT LISTENERS
+renderCountryData();
 selectPh.addEventListener("click", countryToggle);
 darkMode.addEventListener("click", darkModeToggle);
