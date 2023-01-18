@@ -65,9 +65,12 @@ const getCountryData = async () => {
 const renderCountryData = async function () {
 	const data = await getCountryData();
 	for (const country in data) {
+		//Background image should be used instead of img class
+		//leave country-img class but make it a div
+		//use the div to change background-img
 		const html = `
 			<article class="country">
-				<img class="country-img" src=${data[country].flags.png} />
+				<img class="country-img" src=${data[country].flags.svg} />
 				<div class="country-data">
 					<h3 class="country-name">${data[country].name.common}</h3>
 					<p class="country-line"><span>Population:</span> ${data[country].population}</p>
@@ -84,14 +87,23 @@ const renderCountryData = async function () {
 };
 
 //COUNTRY FILTER
-const countryFilter = () => {
+const countryFilter = (e) => {
+	if (!e.target.classList.contains("select-text")) return;
+	console.log(e.target);
+	console.log(e.target.innerHTML);
 	const countries = document.querySelectorAll(".country");
-	console.log(countries);
+	//console.log(countries);
 	countries.forEach((country) => {
 		const region = country.querySelector(".country-region");
 		const value = region.innerHTML.split(" ");
 
-		console.log(value[1]);
+		//console.log(value[1]);
+		if (e.target.innerHTML !== value[1]) {
+			country.classList.add("display-none");
+		} else {
+			country.classList.remove("display-none");
+			console.log(country);
+		}
 	});
 };
 renderCountryData();
