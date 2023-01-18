@@ -1,3 +1,4 @@
+"use strict";
 // SELECETORS
 
 const darkMode = document.querySelector(".dark-mode");
@@ -5,7 +6,8 @@ const darkModeIcon = document.querySelector(".dark-mode-button");
 const search = document.querySelector(".search-box");
 const selectPh = document.querySelector(".select-placeholder");
 const selectDropDown = document.querySelector(".select-options");
-const countries = document.querySelector(".countries");
+const countriesContainer = document.querySelector(".countries");
+
 const boxShadow = document.querySelectorAll(".change");
 
 // COUNTRY FILTER TOGGLE
@@ -62,7 +64,6 @@ const getCountryData = async () => {
 //COUNTRY DATA PARSE AND RENDER
 const renderCountryData = async function () {
 	const data = await getCountryData();
-	console.log(data);
 	for (const country in data) {
 		const html = `
 			<article class="country">
@@ -70,7 +71,7 @@ const renderCountryData = async function () {
 				<div class="country-data">
 					<h3 class="country-name">${data[country].name.common}</h3>
 					<p class="country-line"><span>Population:</span> ${data[country].population}</p>
-					<p class="country-line county-region"><span>Region:</span> ${
+					<p class="country-line country-region"><span>Region:</span> ${
 						data[country].region
 					}</p>
 					<p class="country-line"><span>Capital:</span> ${
@@ -78,10 +79,27 @@ const renderCountryData = async function () {
 					}</p>
 				</div>
 			</article>`;
-		countries.insertAdjacentHTML("beforeend", html);
+		countriesContainer.insertAdjacentHTML("beforeend", html);
 	}
 };
-//EVENT LISTENERS
+
+//COUNTRY FILTER
+const countryFilter = () => {
+	const countries = document.querySelectorAll(".country");
+	console.log(countries);
+	countries.forEach((country) => {
+		const region = country.querySelector(".country-region");
+		const value = region.innerHTML.split(" ");
+
+		console.log(value[1]);
+	});
+};
 renderCountryData();
-selectPh.addEventListener("click", countryToggle);
-darkMode.addEventListener("click", darkModeToggle);
+//EVENT LISTENERS
+const initListeners = function () {
+	selectPh.addEventListener("click", countryToggle);
+	darkMode.addEventListener("click", darkModeToggle);
+	selectDropDown.addEventListener("click", countryFilter);
+};
+
+window.addEventListener("load", initListeners);
