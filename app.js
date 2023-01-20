@@ -7,7 +7,7 @@ const search = document.querySelector(".search-box");
 const selectPh = document.querySelector(".select-placeholder");
 const selectDropDown = document.querySelector(".select-options");
 const countriesContainer = document.querySelector(".countries");
-
+const clear = document.querySelector(".clear");
 const boxShadow = document.querySelectorAll(".change");
 
 // COUNTRY FILTER TOGGLE
@@ -65,9 +65,6 @@ const getCountryData = async () => {
 const renderCountryData = async function () {
 	const data = await getCountryData();
 	for (const country in data) {
-		//Background image should be used instead of img class
-		//leave country-img class but make it a div
-		//use the div to change background-img
 		const html = `
 			<article class="country">
 				<img class="country-img" src=${data[country].flags.svg} />
@@ -89,8 +86,10 @@ const renderCountryData = async function () {
 //COUNTRY FILTER
 const countryFilter = (e) => {
 	if (!e.target.classList.contains("select-text")) return;
-	console.log(e.target);
-	console.log(e.target.innerHTML);
+	clear.classList.remove("display-none");
+
+	//console.log(e.target);
+	//console.log(e.target.innerHTML);
 	const countries = document.querySelectorAll(".country");
 	//console.log(countries);
 	countries.forEach((country) => {
@@ -102,9 +101,14 @@ const countryFilter = (e) => {
 			country.classList.add("display-none");
 		} else {
 			country.classList.remove("display-none");
-			console.log(country);
 		}
 	});
+};
+const filterClear = function () {
+	clear.classList.add("display-none");
+	const countries = document.querySelectorAll(".country");
+	countries.forEach((country) => country.classList.remove("display-none"));
+	selectDropDown.classList.add("hidden");
 };
 renderCountryData();
 //EVENT LISTENERS
@@ -112,6 +116,7 @@ const initListeners = function () {
 	selectPh.addEventListener("click", countryToggle);
 	darkMode.addEventListener("click", darkModeToggle);
 	selectDropDown.addEventListener("click", countryFilter);
+	clear.addEventListener("click", filterClear);
 };
 
 window.addEventListener("load", initListeners);
