@@ -23,7 +23,8 @@ const darkModeToggle = function () {
 		document.documentElement.style.cssText = `--main-background: hsl(207, 26%, 17%);
 		--secondary-background: hsl(209, 23%, 22%);
 		--text-color: hsl(0, 0%, 100%);
-		--searchPH-color: hsla(0, 0%, 52%, 0.444);`;
+		--searchPH-color: hsla(0, 0%, 52%, 0.444);
+		--text-color-secondary: hsl(220, 4%, 86%);`;
 		darkModeIcon.innerHTML = `<ion-icon name="sunny"></ion-icon>
 		Light Mode`;
 		boxShadow.forEach((el) => {
@@ -34,7 +35,8 @@ const darkModeToggle = function () {
 		document.documentElement.style.cssText = `--main-background: hsl(0, 0%, 98%);
 		--secondary-background: #fff;
 		--text-color: hsl(200, 15%, 8%);
-		--searchPH-color: hsla(0, 0%, 52%, 0.444);`;
+		--searchPH-color: hsla(0, 0%, 52%, 0.444);
+		--text-color-secondary: hsl(0, 0%, 49%);`;
 		darkModeIcon.innerHTML = `<ion-icon name="moon"></ion-icon>
 		Dark Mode`;
 		boxShadow.forEach((el) => {
@@ -67,10 +69,14 @@ const renderCountryData = async function () {
 	for (const country in data) {
 		const html = `
 			<article class="country">
-				<img class="country-img" src=${data[country].flags.svg} />
+				<img class="country-img" alt="${data[country].name.common} flag" src=${
+			data[country].flags.svg
+		} />
 				<div class="country-data">
 					<h3 class="country-name">${data[country].name.common}</h3>
-					<p class="country-line"><span>Population:</span> ${data[country].population}</p>
+					<p class="country-line"><span>Population:</span> ${data[
+						country
+					].population.toLocaleString()}</p>
 					<p class="country-line country-region"><span>Region:</span> ${
 						data[country].region
 					}</p>
@@ -103,9 +109,13 @@ const countryFilter = (e) => {
 			country.classList.remove("display-none");
 		}
 	});
+	selectPh.innerHTML = `<p class="select-text">${e.target.innerHTML}</p>
+	<ion-icon name="chevron-down-sharp"></ion-icon>`;
 };
 const filterClear = function () {
 	clear.classList.add("display-none");
+	selectPh.innerHTML = `<p class="select-text">Filter by Region</p>
+	<ion-icon name="chevron-down-sharp"></ion-icon>`;
 	const countries = document.querySelectorAll(".country");
 	countries.forEach((country) => country.classList.remove("display-none"));
 	selectDropDown.classList.add("hidden");

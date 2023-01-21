@@ -38,6 +38,7 @@ The designs were created to the following widths:
 	--secondary-background: #fff;
 	--text-color: hsl(200, 15%, 8%);
 	--searchPH-color: hsla(0, 0%, 52%, 0.444);
+	--text-color-secondary: hsl(0, 0%, 49%);
 }
 
 * {
@@ -100,6 +101,13 @@ body {
 	cursor: pointer;
 	font-weight: 300;
 	color: var(--text-color);
+	transition: color 0.2s;
+}
+.dark-mode-button:hover {
+	color: hsl(201, 89%, 18%);
+}
+.dark .dark-mode-button:hover {
+	color: hsl(60, 94%, 55%);
 }
 
 /**************************/
@@ -172,14 +180,22 @@ input[type="search"]::placeholder {
 	background-color: var(--secondary-background);
 	padding: 2rem 1rem;
 	position: absolute;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-out;
 }
 .select-options li {
 	padding-left: 2.4rem;
+	transition: color 0.2s;
+}
+.select-options li:hover {
+	color: var(--text-color-secondary);
 }
 .countries {
 	margin-top: 4.2rem;
 	padding: 0.1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3.6rem;
 }
 .countries .country .display-none:first-child {
 	margin-top: 0;
@@ -190,7 +206,6 @@ input[type="search"]::placeholder {
 	font-size: 1.8rem;
 	width: 30rem;
 	border-radius: 0.7rem;
-	margin: 3.6rem 0;
 }
 
 .country-img {
