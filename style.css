@@ -15,6 +15,12 @@ The designs were created to the following widths:
 - Very Light Gray (Light Mode Background): hsl(0, 0%, 98%)
 - White (Dark Mode Text & Light Mode Elements): hsl(0, 0%, 100%)
 
+/////////////
+LIGHT MODE:
+--main-background: hsl(0, 0%, 98%); --secondary-background: #fff; --text-color: hsl(200, 15%, 8%); --searchPH-color: hsla(0, 0%, 52%, 0.444); --text-color-secondary: hsl(0, 0%, 49%);
+
+DARK MODE:
+--main-background: hsl(207, 26%, 17%); --secondary-background: hsl(209, 23%, 22%); --text-color: hsl(0, 0%, 100%); --searchPH-color: hsla(0, 0%, 52%, 0.444); --text-color-secondary: hsl(220, 4%, 86%);
 ### Fonts
 
 - Family: [Nunito Sans](https://fonts.google.com/specimen/Nunito+Sans)

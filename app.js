@@ -9,6 +9,7 @@ const selectDropDown = document.querySelector(".select-options");
 const countriesContainer = document.querySelector(".countries");
 const clear = document.querySelector(".clear");
 const boxShadow = document.querySelectorAll(".change");
+const input = document.querySelector("#search-input");
 
 // COUNTRY FILTER TOGGLE
 const countryToggle = function () {
@@ -120,6 +121,28 @@ const filterClear = function () {
 	countries.forEach((country) => country.classList.remove("display-none"));
 	selectDropDown.classList.add("hidden");
 };
+//SEARCH
+const searchFunction = function (input) {
+	filterClear();
+	const countries = document.querySelectorAll(".country");
+	const countriesArr = Array.from(countries);
+	countriesArr.forEach((result) => result.classList.remove("display-none"));
+	//console.log(countriesArr);
+	const results = countriesArr.filter(
+		(country) =>
+			!country
+				.querySelector(".country-name")
+				.textContent.toLowerCase()
+				.includes(input)
+	);
+	if (results.length === countries.length) return;
+	results.forEach((result) => result.classList.add("display-none"));
+
+	//NEED TO ADD NO MATCHES MESSAGE
+	//DECIDE IF FILTER AFFECTS SEARCH OR NOT IF NOT CLEAR FILTER AT THE START
+	//NEED TO ADD CLEAR
+};
+//startswith(	)
 renderCountryData();
 //EVENT LISTENERS
 const initListeners = function () {
@@ -127,6 +150,11 @@ const initListeners = function () {
 	darkMode.addEventListener("click", darkModeToggle);
 	selectDropDown.addEventListener("click", countryFilter);
 	clear.addEventListener("click", filterClear);
+	input.addEventListener("keydown", (event) => {
+		if (event.keyCode === 13 || event.key === "Enter") {
+			searchFunction(input.value.toLowerCase());
+		}
+	});
 };
 
 window.addEventListener("load", initListeners);
