@@ -128,12 +128,20 @@ body {
 
 .search-box {
 	display: flex;
+	position: relative;
 	align-items: center;
 	gap: 2rem;
 	background-color: var(--secondary-background);
 	font-size: 2.4rem;
 	padding: 1.6rem 3.2rem;
 	width: 100%;
+}
+.search-icon-cont {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.4rem;
+	color: var(--searchPH-color);
 }
 input[type="search"] {
 	border: none;
@@ -149,6 +157,15 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 input[type="search"]::placeholder {
 	color: var(--searchPH-color);
+}
+.search-error {
+	display: none;
+	position: absolute;
+	top: 7.5rem;
+	left: 2rem;
+	text-decoration: underline;
+	font-size: 1.4rem;
+	color: red;
 }
 .cont {
 	display: flex;

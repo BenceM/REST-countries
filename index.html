@@ -35,12 +35,17 @@
 		<main class="main">
 			<div class="navigation">
 				<div class="search-box round-border box-shadow change">
-					<ion-icon class="search-icon" name="search-sharp"></ion-icon>
+					<div class="search-icon-cont">
+						<ion-icon class="search-icon" name="search-sharp"></ion-icon>
+					</div>
 					<input
 						type="search"
 						id="search-input"
 						placeholder="Search for a country..."
 					/>
+					<p class="search-error">
+						Couldn't find matching countries. Try again!
+					</p>
 				</div>
 				<div class="cont">
 					<div class="select">

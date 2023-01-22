@@ -4,13 +4,17 @@
 const darkMode = document.querySelector(".dark-mode");
 const darkModeIcon = document.querySelector(".dark-mode-button");
 const search = document.querySelector(".search-box");
+const searchIconContainer = document.querySelector(".search-icon-cont");
+const searchErr = document.querySelector(".search-error");
 const selectPh = document.querySelector(".select-placeholder");
 const selectDropDown = document.querySelector(".select-options");
 const countriesContainer = document.querySelector(".countries");
 const clear = document.querySelector(".clear");
 const boxShadow = document.querySelectorAll(".change");
 const input = document.querySelector("#search-input");
-
+//HELPER VARIABLES
+let prevInput = "";
+let searchTerm = "";
 // COUNTRY FILTER TOGGLE
 const countryToggle = function () {
 	selectDropDown.classList.toggle("hidden");
@@ -95,9 +99,11 @@ const countryFilter = (e) => {
 	if (!e.target.classList.contains("select-text")) return;
 	clear.classList.remove("display-none");
 
-	//console.log(e.target);
-	//console.log(e.target.innerHTML);
 	const countries = document.querySelectorAll(".country");
+	if (input.value !== "") {
+		searchClear(countries);
+	}
+
 	//console.log(countries);
 	countries.forEach((country) => {
 		const region = country.querySelector(".country-region");
@@ -122,27 +128,56 @@ const filterClear = function () {
 	selectDropDown.classList.add("hidden");
 };
 //SEARCH
-const searchFunction = function (input) {
+
+const searchFunction = function (countries) {
 	filterClear();
-	const countries = document.querySelectorAll(".country");
 	const countriesArr = Array.from(countries);
 	countriesArr.forEach((result) => result.classList.remove("display-none"));
-	//console.log(countriesArr);
+	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="close-sharp" role="img" aria-label="close sharp"></ion-icon>`;
 	const results = countriesArr.filter(
 		(country) =>
 			!country
 				.querySelector(".country-name")
 				.textContent.toLowerCase()
-				.includes(input)
+				.includes(input.value.toLowerCase())
 	);
-	if (results.length === countries.length) return;
+	if (results.length === countries.length) {
+		searchErr.style.display = "block";
+		input.focus();
+		return;
+	}
 	results.forEach((result) => result.classList.add("display-none"));
-
-	//NEED TO ADD NO MATCHES MESSAGE
-	//DECIDE IF FILTER AFFECTS SEARCH OR NOT IF NOT CLEAR FILTER AT THE START
-	//NEED TO ADD CLEAR
 };
-//startswith(	)
+const searchClear = function (countries) {
+	input.value = "";
+
+	countries.forEach((country) => country.classList.remove("display-none"));
+	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
+	searchErr.style.display = "none";
+	searchTerm = "";
+};
+const searchFull = function () {
+	if (input.value === "") return;
+
+	const searchIcon = searchIconContainer.querySelector(".search-icon");
+	const countries = document.querySelectorAll(".country");
+
+	if (searchIcon.name === "search-sharp") {
+		console.log("test");
+		input.blur();
+		searchFunction(countries);
+		searchTerm = input.value;
+
+		return;
+	}
+	if (input.value === searchTerm) return;
+	if (searchIcon.name === "close-sharp") {
+		searchClear(countries);
+
+		return;
+	}
+};
+
 renderCountryData();
 //EVENT LISTENERS
 const initListeners = function () {
@@ -150,10 +185,28 @@ const initListeners = function () {
 	darkMode.addEventListener("click", darkModeToggle);
 	selectDropDown.addEventListener("click", countryFilter);
 	clear.addEventListener("click", filterClear);
-	input.addEventListener("keydown", (event) => {
-		if (event.keyCode === 13 || event.key === "Enter") {
-			searchFunction(input.value.toLowerCase());
+	input.addEventListener("keydown", (e) => {
+		if (e.keyCode === 13 || e.key === "Enter") {
+			searchFull();
 		}
+	});
+	input.addEventListener("input", (e) => {
+		//let currInput = input.value;
+		if (input.value === "") {
+			searchClear(document.querySelectorAll(".country"));
+		}
+		if (prevInput.length !== 0 && prevInput.length > input.value.length) {
+			searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
+			searchErr.style.display = "none";
+			searchTerm = "";
+		}
+		prevInput = input.value;
+	});
+	searchIconContainer.addEventListener("click", (e) => {
+		if (e.target.name === "close-sharp") {
+			searchClear(document.querySelectorAll(".country"));
+		}
+		searchFull();
 	});
 };
 
