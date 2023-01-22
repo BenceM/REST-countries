@@ -29,7 +29,8 @@ const darkModeToggle = function () {
 		--secondary-background: hsl(209, 23%, 22%);
 		--text-color: hsl(0, 0%, 100%);
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
-		--text-color-secondary: hsl(220, 4%, 86%);`;
+		--text-color-secondary: hsl(220, 4%, 86%);
+		--error-color: hsl(0, 100%, 69%);`;
 		darkModeIcon.innerHTML = `<ion-icon name="sunny"></ion-icon>
 		Light Mode`;
 		boxShadow.forEach((el) => {
@@ -41,7 +42,8 @@ const darkModeToggle = function () {
 		--secondary-background: #fff;
 		--text-color: hsl(200, 15%, 8%);
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
-		--text-color-secondary: hsl(0, 0%, 49%);`;
+		--text-color-secondary: hsl(0, 0%, 49%);
+		--error-color: hsl(0, 100%, 26%);`;
 		darkModeIcon.innerHTML = `<ion-icon name="moon"></ion-icon>
 		Dark Mode`;
 		boxShadow.forEach((el) => {
@@ -163,7 +165,7 @@ const searchFull = function () {
 	const countries = document.querySelectorAll(".country");
 
 	if (searchIcon.name === "search-sharp") {
-		console.log("test");
+		//console.log("test");
 		input.blur();
 		searchFunction(countries);
 		searchTerm = input.value;
@@ -195,7 +197,7 @@ const initListeners = function () {
 		if (input.value === "") {
 			searchClear(document.querySelectorAll(".country"));
 		}
-		if (prevInput.length !== 0 && prevInput.length > input.value.length) {
+		if (prevInput.length !== 0 && prevInput !== input.value) {
 			searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
 			searchErr.style.display = "none";
 			searchTerm = "";
