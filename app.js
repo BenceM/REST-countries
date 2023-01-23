@@ -143,18 +143,17 @@ const countryFilter = (e) => {
 	selectPh.innerHTML = `<p class="select-text">${e.target.innerHTML}</p>
 	<ion-icon name="chevron-down-sharp"></ion-icon>`;
 };
-const filterClear = function () {
+const filterClear = function (countries) {
 	clear.classList.add("display-none");
 	selectPh.innerHTML = `<p class="select-text">Filter by Region</p>
 	<ion-icon name="chevron-down-sharp"></ion-icon>`;
-	const countries = document.querySelectorAll(".country");
 	countries.forEach((country) => country.classList.remove("display-none"));
 	selectDropDown.classList.add("hidden");
 };
 //SEARCH
 
 const searchFunction = function (countries) {
-	filterClear();
+	filterClear(countries);
 	const countriesArr = Array.from(countries);
 	countriesArr.forEach((result) => result.classList.remove("display-none"));
 	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="close-sharp" role="img" aria-label="close sharp"></ion-icon>`;
@@ -180,12 +179,11 @@ const searchClear = function (countries) {
 	searchErr.style.display = "none";
 	searchTerm = "";
 };
-const searchFull = function () {
+const searchFull = function (list) {
 	if (input.value === "") return;
-
 	const searchIcon = searchIconContainer.querySelector(".search-icon");
-	const countries = document.querySelectorAll(".country");
-
+	console.log(list);
+	const countries = list;
 	if (searchIcon.name === "search-sharp") {
 		//console.log("test");
 		input.blur();
@@ -206,21 +204,24 @@ renderCountryData();
 
 //EVENT LISTENERS
 const initListeners = function () {
+	const countries = document.querySelectorAll(".country");
 	darkMode.addEventListener("click", darkModeToggle);
 	// EVENT LISTENERS FOR FILTER
 	selectPh.addEventListener("click", countryToggle);
 	selectDropDown.addEventListener("click", countryFilter);
-	clear.addEventListener("click", filterClear);
+	clear.addEventListener("click", () => {
+		filterClear(countries);
+	});
 	// EVENT LISTENERS FOR SEARCH
 	input.addEventListener("keydown", (e) => {
 		if (e.keyCode === 13 || e.key === "Enter") {
-			searchFull();
+			searchFull(countries);
 		}
 	});
 	input.addEventListener("input", (e) => {
 		//let currInput = input.value;
 		if (input.value === "") {
-			searchClear(document.querySelectorAll(".country"));
+			searchClear(countries);
 		}
 		if (prevInput.length !== 0 && prevInput !== input.value) {
 			searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
@@ -231,9 +232,9 @@ const initListeners = function () {
 	});
 	searchIconContainer.addEventListener("click", (e) => {
 		if (e.target.name === "close-sharp") {
-			searchClear(document.querySelectorAll(".country"));
+			searchClear(countries);
 		}
-		searchFull();
+		searchFull(countries);
 	});
 };
 
