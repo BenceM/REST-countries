@@ -74,11 +74,12 @@ const getCountryData = async () => {
 const renderCountryData = async function () {
 	const data = await getCountryData();
 	for (const country in data) {
-		const html = `
+		if (country < 10) {
+			const html = `
 			<article class="country">
 				<img class="country-img" alt="${data[country].name.common} flag" src=${
-			data[country].flags.svg
-		} />
+				data[country].flags.svg
+			} />
 				<div class="country-data">
 					<h3 class="country-name">${data[country].name.common}</h3>
 					<p class="country-line"><span>Population:</span> ${data[
@@ -92,7 +93,28 @@ const renderCountryData = async function () {
 					}</p>
 				</div>
 			</article>`;
-		countriesContainer.insertAdjacentHTML("beforeend", html);
+			countriesContainer.insertAdjacentHTML("beforeend", html);
+		} else {
+			const html = `
+			<article class="country display-none">
+				<img class="country-img" alt="${data[country].name.common} flag" src=${
+				data[country].flags.svg
+			} />
+				<div class="country-data">
+					<h3 class="country-name">${data[country].name.common}</h3>
+					<p class="country-line"><span>Population:</span> ${data[
+						country
+					].population.toLocaleString()}</p>
+					<p class="country-line country-region"><span>Region:</span> ${
+						data[country].region
+					}</p>
+					<p class="country-line"><span>Capital:</span> ${
+						data[country].capital?.[0] ?? "None"
+					}</p>
+				</div>
+			</article>`;
+			countriesContainer.insertAdjacentHTML("beforeend", html);
+		}
 	}
 };
 
@@ -181,12 +203,15 @@ const searchFull = function () {
 };
 
 renderCountryData();
+
 //EVENT LISTENERS
 const initListeners = function () {
-	selectPh.addEventListener("click", countryToggle);
 	darkMode.addEventListener("click", darkModeToggle);
+	// EVENT LISTENERS FOR FILTER
+	selectPh.addEventListener("click", countryToggle);
 	selectDropDown.addEventListener("click", countryFilter);
 	clear.addEventListener("click", filterClear);
+	// EVENT LISTENERS FOR SEARCH
 	input.addEventListener("keydown", (e) => {
 		if (e.keyCode === 13 || e.key === "Enter") {
 			searchFull();
