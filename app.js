@@ -173,7 +173,6 @@ const searchFunction = function (countries) {
 };
 const searchClear = function (countries) {
 	input.value = "";
-
 	countries.forEach((country) => country.classList.remove("display-none"));
 	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
 	searchErr.style.display = "none";
@@ -182,7 +181,7 @@ const searchClear = function (countries) {
 const searchFull = function (list) {
 	if (input.value === "") return;
 	const searchIcon = searchIconContainer.querySelector(".search-icon");
-	console.log(list);
+
 	const countries = list;
 	if (searchIcon.name === "search-sharp") {
 		//console.log("test");
@@ -236,6 +235,7 @@ const initListeners = function () {
 		}
 		searchFull(countries);
 	});
+	// add intersection observer to observe the load of new countries
 };
 
 window.addEventListener("load", initListeners);
