@@ -1,6 +1,10 @@
 "use strict";
 // SELECETORS
 
+const countryModalContainer = document.querySelector(
+	".country-modal-container"
+);
+const main = document.querySelector(".main");
 const darkMode = document.querySelector(".dark-mode");
 const darkModeIcon = document.querySelector(".dark-mode-button");
 const search = document.querySelector(".search-box");
@@ -118,6 +122,50 @@ const renderCountryData = async function () {
 	}
 };
 
+//COUNTRY MODAL FUNCTION
+const countryModal = async function (e, countries) {
+	const data = await getCountryData();
+	const parent = e.target.closest(".country");
+	const country = Array.from(countries).indexOf(parent);
+	if (country === -1) return;
+	const html = `
+	<button type="button" class="button-back">BACK</button>
+	<img
+		class="country-img"
+		alt="${data[country].name.common} flag"
+		src=${data[country].flags.svg}
+	/>
+	<div class="country-data">
+		<h3 class="country-name">${data[country].name.common}</h3>
+		<div class="country-modal-1">
+			<p class="country-line"><span>Native name:</span> FILL OUT</p>
+			<p class="country-line">
+				<span>Population:</span> ${data[country].population.toLocaleString()}
+			</p>
+			<p class="country-line country-region">
+				<span>Region:</span> ${data[country].region}
+			</p>
+			<p class="country-line"><span>Sub Region:</span> FILL OUT</p>
+			<p class="country-line">
+				<span>Capital:</span> ${data[country].capital?.[0] ?? "None"}
+			</p>
+		</div>
+		<div class="country-modal-2">
+			<p class="country-line"><span>Top Level Domain:</span> FILL OUT</p>
+			<p class="country-line"><span>Currencies:</span> FILL OUT</p>
+			<p class="country-line"><span>Languages:</span> FILL OUT</p>
+		</div>
+		<div class="country-modal-3">
+			<h4>Border Countries:</h4>
+			<div class="border-countries"></div>
+		</div>
+	</div>`;
+	main.classList.add("display-none");
+	console.log("hello");
+	countryModalContainer.innerHTML = html;
+	countryModalContainer.classList.remove("display-none");
+};
+
 //COUNTRY FILTER
 const countryFilter = (e) => {
 	if (!e.target.classList.contains("select-text")) return;
@@ -205,6 +253,14 @@ renderCountryData();
 const initListeners = function () {
 	const countries = document.querySelectorAll(".country");
 	darkMode.addEventListener("click", darkModeToggle);
+	//MODAL
+	countriesContainer.addEventListener("click", (e) =>
+		countryModal(e, countries)
+	);
+	countryModalContainer.addEventListener("click", (e) => {
+		if (e.target.classList.contains("button-back")) {
+		}
+	});
 	// EVENT LISTENERS FOR FILTER
 	selectPh.addEventListener("click", countryToggle);
 	selectDropDown.addEventListener("click", countryFilter);

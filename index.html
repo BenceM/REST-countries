@@ -32,6 +32,7 @@
 				</button>
 			</div>
 		</header>
+		<article class="country-modal-container display-none"></article>
 		<main class="main">
 			<div class="navigation">
 				<div class="search-box round-border box-shadow change">
@@ -66,43 +67,6 @@
 					</div>
 				</div>
 			</div>
-
-			<article class="country-modal">
-				<button type="button">BACK</button>
-				<img
-					class="country-img"
-					alt="${data[country].name.common} flag"
-					src="${"
-					data[country].flags.svg
-					}
-				/>
-				<div class="country-data">
-					<h3 class="country-name">${data[country].name.common}</h3>
-					<div class="country-modal-1">
-						<p class="country-line"><span>Native name:</span> FILL OUT</p>
-						<p class="country-line">
-							<span>Population:</span> ${data[ country
-							].population.toLocaleString()}
-						</p>
-						<p class="country-line country-region">
-							<span>Region:</span> ${ data[country].region }
-						</p>
-						<p class="country-line"><span>Sub Region:</span> FILL OUT</p>
-						<p class="country-line">
-							<span>Capital:</span> ${ data[country].capital?.[0] ?? "None" }
-						</p>
-					</div>
-					<div class="country-modal-2">
-						<p class="country-line"><span>Top Level Domain:</span> FILL OUT</p>
-						<p class="country-line"><span>Currencies:</span> FILL OUT</p>
-						<p class="country-line"><span>Languages:</span> FILL OUT</p>
-					</div>
-					<div class="country-modal-3">
-						<h4>Border Countries:</h4>
-						<div class="border-countries"></div>
-					</div>
-				</div>
-			</article>
 
 			<div class="countries"></div>
 		</main>

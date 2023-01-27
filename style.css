@@ -255,3 +255,10 @@ input[type="search"]::placeholder {
 .country-line:last-child {
 	margin-bottom: 4.2rem;
 }
+
+.country-modal {
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	padding-top: 5rem;
+}
