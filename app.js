@@ -124,10 +124,14 @@ const renderCountryData = async function () {
 
 //COUNTRY MODAL FUNCTION
 const countryModal = async function (e, countries) {
+	console.log("im running");
 	const data = await getCountryData();
 	const parent = e.target.closest(".country");
 	const country = Array.from(countries).indexOf(parent);
+	console.log(country);
 	if (country === -1) return;
+	const langs = Object.keys(data[country].languages);
+	console.log(data);
 	const html = `
 	<button type="button" class="button-back">BACK</button>
 	<img
@@ -138,32 +142,43 @@ const countryModal = async function (e, countries) {
 	<div class="country-data">
 		<h3 class="country-name">${data[country].name.common}</h3>
 		<div class="country-modal-1">
-			<p class="country-line"><span>Native name:</span> FILL OUT</p>
+			<p class="country-line"><span>Native name:</span> ${
+				data[country].name.nativeName[
+					Object.keys(data[country].name.nativeName)[0]
+				]?.common
+			}
 			<p class="country-line">
 				<span>Population:</span> ${data[country].population.toLocaleString()}
 			</p>
 			<p class="country-line country-region">
 				<span>Region:</span> ${data[country].region}
 			</p>
-			<p class="country-line"><span>Sub Region:</span> FILL OUT</p>
+			<p class="country-line"><span>Sub Region:</span> ${data[country].subregion}</p>
 			<p class="country-line">
 				<span>Capital:</span> ${data[country].capital?.[0] ?? "None"}
 			</p>
 		</div>
 		<div class="country-modal-2">
-			<p class="country-line"><span>Top Level Domain:</span> FILL OUT</p>
-			<p class="country-line"><span>Currencies:</span> FILL OUT</p>
-			<p class="country-line"><span>Languages:</span> FILL OUT</p>
+			<p class="country-line"><span>Top Level Domain:</span> ${data[country].tld}</p>
+			<p class="country-line"><span>Currencies:</span> ${
+				data[country].currencies[Object.keys(data[country].currencies)]?.name
+			}</p>
+			<p class="country-line"><span>Languages:</span> ${langs.map(
+				(key) => data[country].languages[key]
+			)}</p>
 		</div>
 		<div class="country-modal-3">
 			<h4>Border Countries:</h4>
-			<div class="border-countries"></div>
+			<div class="border-countries">
+			${1 + 1}
+			</div>
 		</div>
 	</div>`;
 	main.classList.add("display-none");
-	console.log("hello");
+
 	countryModalContainer.innerHTML = html;
 	countryModalContainer.classList.remove("display-none");
+	console.log("im running end");
 };
 
 //BACK BUTTON IN MODAL
