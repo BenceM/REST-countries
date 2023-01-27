@@ -166,6 +166,12 @@ const countryModal = async function (e, countries) {
 	countryModalContainer.classList.remove("display-none");
 };
 
+//BACK BUTTON IN MODAL
+const backButtonFn = () => {
+	main.classList.remove("display-none");
+	countryModalContainer.classList.add("display-none");
+	countryModalContainer.innerHTML = "";
+};
 //COUNTRY FILTER
 const countryFilter = (e) => {
 	if (!e.target.classList.contains("select-text")) return;
@@ -259,6 +265,7 @@ const initListeners = function () {
 	);
 	countryModalContainer.addEventListener("click", (e) => {
 		if (e.target.classList.contains("button-back")) {
+			backButtonFn();
 		}
 	});
 	// EVENT LISTENERS FOR FILTER
