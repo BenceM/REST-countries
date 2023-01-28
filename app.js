@@ -333,5 +333,5 @@ const initListeners = async function () {
 	});
 	// add intersection observer to observe the load of new countries
 };
-
+//Could try creating 250 country divs before populating them and see how that affects load time
 initListeners();
