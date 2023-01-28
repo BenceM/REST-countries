@@ -16,9 +16,11 @@ const countriesContainer = document.querySelector(".countries");
 const clear = document.querySelector(".clear");
 const boxShadow = document.querySelectorAll(".change");
 const input = document.querySelector("#search-input");
+
 //HELPER VARIABLES
 let prevInput = "";
 let searchTerm = "";
+
 // COUNTRY FILTER TOGGLE
 const countryToggle = function () {
 	selectDropDown.classList.toggle("hidden");
@@ -120,13 +122,24 @@ const renderCountryData = async function () {
 			countriesContainer.insertAdjacentHTML("beforeend", html);
 		}
 	}
+	console.log("finished");
+};
+
+//COUNTRY CODE TO NAME
+const CCodeToName = function (cca3, dataset) {
+	const country = dataset.filter((country) => country.cca3 === cca3).pop();
+	return country.name.common;
 };
 
 //COUNTRY MODAL FUNCTION
+
+// NEEDS BORDER COUNTRIES
 const countryModal = async function (e, countries) {
 	console.log("im running");
+	//maybe API call by name is enough, have to figure out how to get the border country names
 	const data = await getCountryData();
 	const parent = e.target.closest(".country");
+	console.log(countries);
 	const country = Array.from(countries).indexOf(parent);
 	console.log(country);
 	if (country === -1) return;
@@ -170,12 +183,17 @@ const countryModal = async function (e, countries) {
 		<div class="country-modal-3">
 			<h4>Border Countries:</h4>
 			<div class="border-countries">
-			${1 + 1}
+			${data[country]?.borders.map(
+				(countryCode) =>
+					`<button type="button" class="button-back">${CCodeToName(
+						countryCode,
+						data
+					)}</button>`
+			)}
 			</div>
 		</div>
 	</div>`;
 	main.classList.add("display-none");
-
 	countryModalContainer.innerHTML = html;
 	countryModalContainer.classList.remove("display-none");
 	console.log("im running end");
@@ -268,11 +286,11 @@ const searchFull = function (list) {
 	}
 };
 
-renderCountryData();
-
 //EVENT LISTENERS
-const initListeners = function () {
+const initListeners = async function () {
+	await renderCountryData();
 	const countries = document.querySelectorAll(".country");
+	console.log(countries.length);
 	darkMode.addEventListener("click", darkModeToggle);
 	//MODAL
 	countriesContainer.addEventListener("click", (e) =>
@@ -316,4 +334,4 @@ const initListeners = function () {
 	// add intersection observer to observe the load of new countries
 };
 
-window.addEventListener("load", initListeners);
+initListeners();
