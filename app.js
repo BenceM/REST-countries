@@ -14,7 +14,6 @@ const selectPh = document.querySelector(".select-placeholder");
 const selectDropDown = document.querySelector(".select-options");
 const countriesContainer = document.querySelector(".countries");
 const clear = document.querySelector(".clear");
-const boxShadow = document.querySelectorAll(".change");
 const input = document.querySelector("#search-input");
 
 //HELPER VARIABLES
@@ -36,26 +35,20 @@ const darkModeToggle = function () {
 		--text-color: hsl(0, 0%, 100%);
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
 		--text-color-secondary: hsl(220, 4%, 86%);
-		--error-color: hsl(0, 100%, 69%);`;
+		--error-color: hsl(0, 100%, 69%);
+		--box-shadow: 0 0 0.5rem rgba(80, 80, 80, 0.2)`;
 		darkModeIcon.innerHTML = `<ion-icon name="sunny"></ion-icon>
 		Light Mode`;
-		boxShadow.forEach((el) => {
-			el.classList.remove("box-shadow");
-			el.classList.add("box-shadow-dark");
-		});
 	} else {
 		document.documentElement.style.cssText = `--main-background: hsl(0, 0%, 98%);
 		--secondary-background: #fff;
 		--text-color: hsl(200, 15%, 8%);
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
 		--text-color-secondary: hsl(0, 0%, 49%);
-		--error-color: hsl(0, 100%, 26%);`;
+		--error-color: hsl(0, 100%, 26%);
+		--box-shadow: 0 0 1rem rgba(120, 120, 120, 0.202);`;
 		darkModeIcon.innerHTML = `<ion-icon name="moon"></ion-icon>
 		Dark Mode`;
-		boxShadow.forEach((el) => {
-			el.classList.remove("box-shadow-dark");
-			el.classList.add("box-shadow");
-		});
 	}
 };
 
@@ -156,14 +149,14 @@ const countryModal = async function (e, countries) {
 	const langs = Object.keys(data[country].languages);
 	console.log(data[country]?.currencies);
 	const html = `
-	<button type="button" class="button-back">BACK</button>
+	<button type="button" class="button-modal button-back box-shadow">&larr; Back</button>
 	<img
-		class="country-img"
+		class="country-img-modal"
 		alt="${data[country].name.common} flag"
 		src=${data[country].flags.svg}
 	/>
-	<div class="country-data">
-		<h3 class="country-name">${data[country].name.common}</h3>
+	<div class="country-data modal-data">
+		<h2 class="country-name">${data[country].name.common}</h2>
 		<div class="country-modal-1">
 			<p class="country-line"><span>Native name:</span> ${
 				data[country].name.nativeName[
@@ -198,14 +191,14 @@ const countryModal = async function (e, countries) {
 			)}</p>
 		</div>
 		<div class="country-modal-3">
-			<h4>Border Countries:</h4>
+			<h3 class="border-text">Border Countries:</h3>
 			<div class="border-countries">
 			${
 				data[country]?.borders
 					? data[country]?.borders
 							.map(
 								(countryCode) =>
-									`<button type="button" value=${countryCode} class="button-border">${CCodeToName(
+									`<button type="button" value=${countryCode} class="button-modal button-border box-shadow">${CCodeToName(
 										countryCode,
 										data
 									)}</button>`
