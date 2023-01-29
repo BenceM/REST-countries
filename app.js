@@ -76,7 +76,7 @@ const getCountryData = async () => {
 	}
 };
 
-//COUNTRY DATA PARSE AND RENDER
+//COUNTRY DATA PARSE AND RENDER ALL
 const renderCountryData = async function () {
 	const data = await getCountryData();
 	for (const country in data) {
@@ -133,18 +133,29 @@ const CCodeToName = function (cca3, dataset) {
 
 //COUNTRY MODAL FUNCTION
 
-// NEEDS BORDER COUNTRIES
+// +BORDER COUNTRIES
 const countryModal = async function (e, countries) {
 	console.log("im running");
-	//maybe API call by name is enough, have to figure out how to get the border country names
+
 	const data = await getCountryData();
-	const parent = e.target.closest(".country");
-	console.log(countries);
-	const country = Array.from(countries).indexOf(parent);
-	console.log(country);
-	if (country === -1) return;
-	const langs = Object.keys(data[country].languages);
 	console.log(data);
+	const countriesArr = Array.from(countries);
+	const parent = e.target.closest(".country")
+		? e.target.closest(".country")
+		: countriesArr
+				.filter((el) =>
+					el
+						.querySelector(".country-name")
+						.textContent.toLowerCase()
+						.includes(e.target.textContent.toLowerCase())
+				)
+				.pop();
+
+	const country = countriesArr.indexOf(parent);
+	if (country === -1) return;
+	console.log(country);
+	const langs = Object.keys(data[country].languages);
+	console.log(data[country]?.currencies);
 	const html = `
 	<button type="button" class="button-back">BACK</button>
 	<img
@@ -166,15 +177,22 @@ const countryModal = async function (e, countries) {
 			<p class="country-line country-region">
 				<span>Region:</span> ${data[country].region}
 			</p>
-			<p class="country-line"><span>Sub Region:</span> ${data[country].subregion}</p>
+			<p class="country-line"><span>Sub Region:</span> ${
+				data[country].subregion ?? "Unknown"
+			}</p>
 			<p class="country-line">
 				<span>Capital:</span> ${data[country].capital?.[0] ?? "None"}
 			</p>
 		</div>
 		<div class="country-modal-2">
-			<p class="country-line"><span>Top Level Domain:</span> ${data[country].tld}</p>
+			<p class="country-line"><span>Top Level Domain:</span> ${data[country].tld.join(
+				" "
+			)}</p>
 			<p class="country-line"><span>Currencies:</span> ${
-				data[country].currencies[Object.keys(data[country].currencies)]?.name
+				data[country]?.currencies
+					? data[country]?.currencies[Object.keys(data[country]?.currencies)]
+							.name
+					: "Unknown"
 			}</p>
 			<p class="country-line"><span>Languages:</span> ${langs.map(
 				(key) => data[country].languages[key]
@@ -183,13 +201,19 @@ const countryModal = async function (e, countries) {
 		<div class="country-modal-3">
 			<h4>Border Countries:</h4>
 			<div class="border-countries">
-			${data[country]?.borders.map(
-				(countryCode) =>
-					`<button type="button" class="button-back">${CCodeToName(
-						countryCode,
-						data
-					)}</button>`
-			)}
+			${
+				data[country]?.borders
+					? data[country]?.borders
+							.map(
+								(countryCode) =>
+									`<button type="button" value=${countryCode} class="button-border">${CCodeToName(
+										countryCode,
+										data
+									)}</button>`
+							)
+							.join("")
+					: `<p>No land borders present</p>`
+			}
 			</div>
 		</div>
 	</div>`;
@@ -205,6 +229,7 @@ const backButtonFn = () => {
 	countryModalContainer.classList.add("display-none");
 	countryModalContainer.innerHTML = "";
 };
+
 //COUNTRY FILTER
 const countryFilter = (e) => {
 	if (!e.target.classList.contains("select-text")) return;
@@ -241,7 +266,9 @@ const filterClear = function (countries) {
 
 const searchFunction = function (countries) {
 	filterClear(countries);
+
 	const countriesArr = Array.from(countries);
+
 	countriesArr.forEach((result) => result.classList.remove("display-none"));
 	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="close-sharp" role="img" aria-label="close sharp"></ion-icon>`;
 	const results = countriesArr.filter(
@@ -296,11 +323,17 @@ const initListeners = async function () {
 	countriesContainer.addEventListener("click", (e) =>
 		countryModal(e, countries)
 	);
+	//BACK BUTTON AND BORDER COUNTRIES
 	countryModalContainer.addEventListener("click", (e) => {
 		if (e.target.classList.contains("button-back")) {
 			backButtonFn();
 		}
+		// BORDER COUNTRIES
+		if (e.target.classList.contains("button-border")) {
+			countryModal(e, countries);
+		}
 	});
+
 	// EVENT LISTENERS FOR FILTER
 	selectPh.addEventListener("click", countryToggle);
 	selectDropDown.addEventListener("click", countryFilter);
