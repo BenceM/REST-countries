@@ -143,11 +143,10 @@ const countryModal = async function (e, countries) {
 	const parent = e.target.closest(".country")
 		? e.target.closest(".country")
 		: countriesArr
-				.filter((el) =>
-					el
-						.querySelector(".country-name")
-						.textContent.toLowerCase()
-						.includes(e.target.textContent.toLowerCase())
+				.filter(
+					(el) =>
+						el.querySelector(".country-name").textContent.toLowerCase() ===
+						e.target.textContent.toLowerCase()
 				)
 				.pop();
 
