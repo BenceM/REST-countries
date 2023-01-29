@@ -148,6 +148,11 @@ const countryModal = async function (e, countries) {
 	console.log(country);
 	const langs = Object.keys(data[country].languages);
 	console.log(data[country]?.currencies);
+	console.log(
+		Object.keys(data[country].currencies).map(
+			(key) => data[country].currencies[key].name
+		)
+	);
 	const html = `
 	<button type="button" class="button-modal button-back box-shadow">&larr; Back</button>
 	<img
@@ -182,13 +187,14 @@ const countryModal = async function (e, countries) {
 			)}</p>
 			<p class="country-line"><span>Currencies:</span> ${
 				data[country]?.currencies
-					? data[country]?.currencies[Object.keys(data[country]?.currencies)]
-							.name
+					? Object.keys(data[country].currencies)
+							.map((key) => data[country].currencies[key].name)
+							.join(", ")
 					: "Unknown"
 			}</p>
-			<p class="country-line"><span>Languages:</span> ${langs.map(
-				(key) => data[country].languages[key]
-			)}</p>
+			<p class="country-line"><span>Languages:</span> ${langs
+				.map((key) => data[country].languages[key])
+				.join(", ")}</p>
 		</div>
 		<div class="country-modal-3">
 			<h3 class="border-text">Border Countries:</h3>
