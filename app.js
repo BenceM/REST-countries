@@ -243,7 +243,6 @@ const backButtonFn = (scrollAmount) => {
 
 //COUNTRY FILTER
 const countryFilter = (e) => {
-	if (!e.target.classList.contains("select-text")) return;
 	clear.classList.remove("display-none");
 
 	const countries = document.querySelectorAll(".country");
@@ -325,16 +324,21 @@ const searchFull = function (countriesArr) {
 const initListeners = async function () {
 	await renderCountryData();
 	let scrollAmount;
+
 	const countries = document.querySelectorAll(".country");
 	const countriesArr = Array.from(countries);
+	const ObsEntries = obsTargets(countriesArr);
 	//OBSERVER FUNCTION
 	const obsLogic = function (targets, observer) {
 		const [target] = targets;
-
+		const countryArr = [...countriesArr];
+		console.log(countryArr);
 		if (!target.isIntersecting) return;
-		if (countriesArr.length - Number(target.target.id) < 12) {
+		if (countryArr.length - Number(target.target.id) < 12) {
 			countriesArr.forEach(country.classList.remove("display-none"));
+			observer.disconnect();
 		}
+
 		console.log(Number(target.target.id));
 		console.log(countriesArr[target.target.id]);
 		console.log(observer);
@@ -344,10 +348,9 @@ const initListeners = async function () {
 		root: null,
 		threshold: 0.2,
 	});
+
 	//INTERSECTION OBSERVER INITIATED
-	obsTargets(countriesArr).forEach((country) =>
-		countryObserver.observe(country)
-	);
+	ObsEntries.forEach((country) => countryObserver.observe(country));
 
 	console.log(countries.length);
 	darkMode.addEventListener("click", darkModeToggle);
@@ -368,8 +371,15 @@ const initListeners = async function () {
 	});
 
 	// EVENT LISTENERS FOR FILTER
-	selectPh.addEventListener("click", countryToggle);
-	selectDropDown.addEventListener("click", countryFilter);
+	selectPh.addEventListener("click", () => {
+		countryToggle();
+	});
+	selectDropDown.addEventListener("click", (e) => {
+		if (e.target.classList.contains("select-text")) {
+			countryFilter(e);
+			countryObserver.disconnect();
+		}
+	});
 	clear.addEventListener("click", () => {
 		filterClear(countriesArr);
 	});
@@ -377,6 +387,7 @@ const initListeners = async function () {
 	input.addEventListener("keydown", (e) => {
 		if (e.keyCode === 13 || e.key === "Enter") {
 			searchFull(countriesArr);
+			countryObserver.disconnect();
 		}
 	});
 	input.addEventListener("input", (e) => {
@@ -396,6 +407,7 @@ const initListeners = async function () {
 			searchClear(countriesArr);
 		}
 		searchFull(countriesArr);
+		countryObserver.disconnect();
 	});
 	// add intersection observer to observe the load of new countries
 };
