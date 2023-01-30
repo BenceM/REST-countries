@@ -328,31 +328,40 @@ const initListeners = async function () {
 	const countries = document.querySelectorAll(".country");
 	const countriesArr = Array.from(countries);
 	const ObsEntries = obsTargets(countriesArr);
+
 	//OBSERVER FUNCTION
 	const obsLogic = function (targets, observer) {
 		const [target] = targets;
 		const countryArr = [...countriesArr];
-		console.log(countryArr);
+		console.log(observer);
+		console.log(target);
 		if (!target.isIntersecting) return;
 		if (countryArr.length - Number(target.target.id) < 12) {
-			countriesArr.forEach(country.classList.remove("display-none"));
-			observer.disconnect();
-		}
+			countriesArr.forEach((country) => {
+				country.classList.remove("display-none");
+			});
 
-		console.log(Number(target.target.id));
-		console.log(countriesArr[target.target.id]);
-		console.log(observer);
+			observer.disconnect();
+			return;
+		}
+		for (
+			let i = Number(target.target.id) + 1;
+			i < Number(target.target.id) + 13;
+			i++
+		) {
+			countriesArr[i].classList.remove("display-none");
+		}
+		observer.unobserve(target.target);
 	};
 	//INTERSECTION OBSERVER
 	const countryObserver = new IntersectionObserver(obsLogic, {
 		root: null,
 		threshold: 0.2,
 	});
-
 	//INTERSECTION OBSERVER INITIATED
 	ObsEntries.forEach((country) => countryObserver.observe(country));
 
-	console.log(countries.length);
+	//DARKMODE
 	darkMode.addEventListener("click", darkModeToggle);
 	//MODAL
 	countriesContainer.addEventListener("click", (e) => {
