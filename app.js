@@ -73,9 +73,9 @@ const getCountryData = async () => {
 const renderCountryData = async function () {
 	const data = await getCountryData();
 	for (const country in data) {
-		if (country < 10) {
+		if (country < 12) {
 			const html = `
-			<article class="country">
+			<article class="country" id=${country}>
 				<img class="country-img" alt="${data[country].name.common} flag" src=${
 				data[country].flags.svg
 			} />
@@ -95,7 +95,7 @@ const renderCountryData = async function () {
 			countriesContainer.insertAdjacentHTML("beforeend", html);
 		} else {
 			const html = `
-			<article class="country display-none">
+			<article class="country display-none"id=${country}>
 				<img class="country-img" alt="${data[country].name.common} flag" src=${
 				data[country].flags.svg
 			} />
@@ -118,6 +118,15 @@ const renderCountryData = async function () {
 	console.log("finished");
 };
 
+//OBSERVER SELECTION
+const obsTargets = function (countriesArr) {
+	const filteredArr = countriesArr.filter(
+		(country) => (Number(country.id) + 1) % 12 === 0
+	);
+
+	return filteredArr;
+};
+
 //COUNTRY CODE TO NAME
 const CCodeToName = function (cca3, dataset) {
 	const country = dataset.filter((country) => country.cca3 === cca3).pop();
@@ -127,12 +136,12 @@ const CCodeToName = function (cca3, dataset) {
 //COUNTRY MODAL FUNCTION
 
 // +BORDER COUNTRIES
-const countryModal = async function (e, countries) {
+const countryModal = async function (e, countriesArr) {
 	console.log("im running");
 
 	const data = await getCountryData();
 	console.log(data);
-	const countriesArr = Array.from(countries);
+
 	const parent = e.target.closest(".country")
 		? e.target.closest(".country")
 		: countriesArr
@@ -222,10 +231,14 @@ const countryModal = async function (e, countries) {
 };
 
 //BACK BUTTON IN MODAL
-const backButtonFn = () => {
+const backButtonFn = (scrollAmount) => {
 	main.classList.remove("display-none");
 	countryModalContainer.classList.add("display-none");
 	countryModalContainer.innerHTML = "";
+	window.scroll({
+		top: scrollAmount,
+		left: 0,
+	});
 };
 
 //COUNTRY FILTER
@@ -253,19 +266,17 @@ const countryFilter = (e) => {
 	selectPh.innerHTML = `<p class="select-text">${e.target.innerHTML}</p>
 	<ion-icon name="chevron-down-sharp"></ion-icon>`;
 };
-const filterClear = function (countries) {
+const filterClear = function (countriesArr) {
 	clear.classList.add("display-none");
 	selectPh.innerHTML = `<p class="select-text">Filter by Region</p>
 	<ion-icon name="chevron-down-sharp"></ion-icon>`;
-	countries.forEach((country) => country.classList.remove("display-none"));
+	countriesArr.forEach((country) => country.classList.remove("display-none"));
 	selectDropDown.classList.add("hidden");
 };
 //SEARCH
 
-const searchFunction = function (countries) {
-	filterClear(countries);
-
-	const countriesArr = Array.from(countries);
+const searchFunction = function (countriesArr) {
+	filterClear(countriesArr);
 
 	countriesArr.forEach((result) => result.classList.remove("display-none"));
 	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="close-sharp" role="img" aria-label="close sharp"></ion-icon>`;
@@ -276,36 +287,35 @@ const searchFunction = function (countries) {
 				.textContent.toLowerCase()
 				.includes(input.value.toLowerCase())
 	);
-	if (results.length === countries.length) {
+	if (results.length === countriesArr.length) {
 		searchErr.style.display = "block";
 		input.focus();
 		return;
 	}
 	results.forEach((result) => result.classList.add("display-none"));
 };
-const searchClear = function (countries) {
+const searchClear = function (countriesArr) {
 	input.value = "";
-	countries.forEach((country) => country.classList.remove("display-none"));
+	countriesArr.forEach((country) => country.classList.remove("display-none"));
 	searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
 	searchErr.style.display = "none";
 	searchTerm = "";
 };
-const searchFull = function (list) {
+const searchFull = function (countriesArr) {
 	if (input.value === "") return;
 	const searchIcon = searchIconContainer.querySelector(".search-icon");
 
-	const countries = list;
 	if (searchIcon.name === "search-sharp") {
 		//console.log("test");
 		input.blur();
-		searchFunction(countries);
+		searchFunction(countriesArr);
 		searchTerm = input.value;
 
 		return;
 	}
 	if (input.value === searchTerm) return;
 	if (searchIcon.name === "close-sharp") {
-		searchClear(countries);
+		searchClear(countriesArr);
 
 		return;
 	}
@@ -314,21 +324,46 @@ const searchFull = function (list) {
 //EVENT LISTENERS
 const initListeners = async function () {
 	await renderCountryData();
+	let scrollAmount;
 	const countries = document.querySelectorAll(".country");
+	const countriesArr = Array.from(countries);
+	//OBSERVER FUNCTION
+	const obsLogic = function (targets, observer) {
+		const [target] = targets;
+
+		if (!target.isIntersecting) return;
+		if (countriesArr.length - Number(target.target.id) < 12) {
+			countriesArr.forEach(country.classList.remove("display-none"));
+		}
+		console.log(Number(target.target.id));
+		console.log(countriesArr[target.target.id]);
+		console.log(observer);
+	};
+	//INTERSECTION OBSERVER
+	const countryObserver = new IntersectionObserver(obsLogic, {
+		root: null,
+		threshold: 0.2,
+	});
+	//INTERSECTION OBSERVER INITIATED
+	obsTargets(countriesArr).forEach((country) =>
+		countryObserver.observe(country)
+	);
+
 	console.log(countries.length);
 	darkMode.addEventListener("click", darkModeToggle);
 	//MODAL
-	countriesContainer.addEventListener("click", (e) =>
-		countryModal(e, countries)
-	);
+	countriesContainer.addEventListener("click", (e) => {
+		countryModal(e, countriesArr);
+		scrollAmount = e.pageY;
+	});
 	//BACK BUTTON AND BORDER COUNTRIES
 	countryModalContainer.addEventListener("click", (e) => {
 		if (e.target.classList.contains("button-back")) {
-			backButtonFn();
+			backButtonFn(scrollAmount);
 		}
 		// BORDER COUNTRIES
 		if (e.target.classList.contains("button-border")) {
-			countryModal(e, countries);
+			countryModal(e, countriesArr);
 		}
 	});
 
@@ -336,18 +371,18 @@ const initListeners = async function () {
 	selectPh.addEventListener("click", countryToggle);
 	selectDropDown.addEventListener("click", countryFilter);
 	clear.addEventListener("click", () => {
-		filterClear(countries);
+		filterClear(countriesArr);
 	});
 	// EVENT LISTENERS FOR SEARCH
 	input.addEventListener("keydown", (e) => {
 		if (e.keyCode === 13 || e.key === "Enter") {
-			searchFull(countries);
+			searchFull(countriesArr);
 		}
 	});
 	input.addEventListener("input", (e) => {
 		//let currInput = input.value;
 		if (input.value === "") {
-			searchClear(countries);
+			searchClear(countriesArr);
 		}
 		if (prevInput.length !== 0 && prevInput !== input.value) {
 			searchIconContainer.innerHTML = `<ion-icon class="search-icon md hydrated" name="search-sharp" role="img" aria-label="search sharp"></ion-icon>`;
@@ -358,9 +393,9 @@ const initListeners = async function () {
 	});
 	searchIconContainer.addEventListener("click", (e) => {
 		if (e.target.name === "close-sharp") {
-			searchClear(countries);
+			searchClear(countriesArr);
 		}
-		searchFull(countries);
+		searchFull(countriesArr);
 	});
 	// add intersection observer to observe the load of new countries
 };
