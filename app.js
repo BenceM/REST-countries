@@ -155,14 +155,9 @@ const countryModal = async function (e, countriesArr) {
 
 	const country = countriesArr.indexOf(parent);
 	if (country === -1) return;
-	console.log(country);
+
 	const langs = Object.keys(data[country].languages);
-	console.log(data[country]?.currencies);
-	console.log(
-		Object.keys(data[country].currencies).map(
-			(key) => data[country].currencies[key].name
-		)
-	);
+
 	const html = `
 	<div class="back-cont">
 	<button type="button" class="button-modal button-back box-shadow">&larr; Back</button>
@@ -239,11 +234,10 @@ const countryModal = async function (e, countriesArr) {
 
 //BACK BUTTON IN MODAL
 const backButtonFn = (scrollAmount) => {
-	console.log(scrollAmount);
 	countryModalContainer.classList.add("display-none");
 	main.classList.remove("display-none");
 	countryModalContainer.innerHTML = "";
-	console.log(scrollAmount);
+
 	window.scroll({
 		top: scrollAmount,
 		left: 0,
@@ -342,8 +336,7 @@ const initListeners = async function () {
 	const obsLogic = function (targets, observer) {
 		const [target] = targets;
 		const countryArr = [...countriesArr];
-		console.log(observer);
-		console.log(target);
+
 		if (!target.isIntersecting) return;
 		if (countryArr.length - Number(target.target.id) < 12) {
 			countriesArr.forEach((country) => {
@@ -428,7 +421,6 @@ const initListeners = async function () {
 		searchFull(countriesArr);
 		countryObserver.disconnect();
 	});
-	// add intersection observer to observe the load of new countries
 };
-//Could try creating 250 country divs before populating them and see how that affects load time
+
 initListeners();
