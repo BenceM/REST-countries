@@ -36,7 +36,8 @@ const darkModeToggle = function () {
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
 		--text-color-secondary: hsl(220, 4%, 86%);
 		--error-color: hsl(0, 100%, 69%);
-		--box-shadow: 0 0 0.5rem rgba(80, 80, 80, 0.2)`;
+		--box-shadow: 0 0 0.5rem rgba(80, 80, 80, 0.2);
+		--box-shadow-buttons-modal: 0 0 0.5rem rgba(80, 80, 80, 0.2);`;
 		darkModeIcon.innerHTML = `<ion-icon name="sunny"></ion-icon>
 		Light Mode`;
 	} else {
@@ -46,7 +47,8 @@ const darkModeToggle = function () {
 		--searchPH-color: hsla(0, 0%, 52%, 0.444);
 		--text-color-secondary: hsl(0, 0%, 49%);
 		--error-color: hsl(0, 100%, 26%);
-		--box-shadow: 0 0 1rem rgba(120, 120, 120, 0.202);`;
+		--box-shadow: 0 0 1rem rgba(120, 120, 120, 0.202);
+		--box-shadow-buttons-modal: 0 0 0.5rem rgba(120, 120, 120, 0.202);`;
 		darkModeIcon.innerHTML = `<ion-icon name="moon"></ion-icon>
 		Dark Mode`;
 	}
@@ -140,7 +142,6 @@ const countryModal = async function (e, countriesArr) {
 	console.log("im running");
 
 	const data = await getCountryData();
-	console.log(data);
 
 	const parent = e.target.closest(".country")
 		? e.target.closest(".country")
@@ -163,14 +164,16 @@ const countryModal = async function (e, countriesArr) {
 		)
 	);
 	const html = `
+	<div class="back-cont">
 	<button type="button" class="button-modal button-back box-shadow">&larr; Back</button>
+	</div>
 	<img
 		class="country-img-modal"
 		alt="${data[country].name.common} flag"
 		src=${data[country].flags.svg}
 	/>
 	<div class="country-data modal-data">
-		<h2 class="country-name">${data[country].name.common}</h2>
+		<h2 class="country-name country-name-modal">${data[country].name.common}</h2>
 		<div class="country-modal-1">
 			<p class="country-line"><span>Native name:</span> ${
 				data[country].name.nativeName[
@@ -213,7 +216,7 @@ const countryModal = async function (e, countriesArr) {
 					? data[country]?.borders
 							.map(
 								(countryCode) =>
-									`<button type="button" value=${countryCode} class="button-modal button-border box-shadow">${CCodeToName(
+									`<button type="button" value=${countryCode} class="button-modal button-border">${CCodeToName(
 										countryCode,
 										data
 									)}</button>`
@@ -224,17 +227,23 @@ const countryModal = async function (e, countriesArr) {
 			</div>
 		</div>
 	</div>`;
+	countryModalContainer.classList.remove("display-none");
 	main.classList.add("display-none");
 	countryModalContainer.innerHTML = html;
-	countryModalContainer.classList.remove("display-none");
+	window.scroll({
+		top: 0,
+		left: 0,
+	});
 	console.log("im running end");
 };
 
 //BACK BUTTON IN MODAL
 const backButtonFn = (scrollAmount) => {
-	main.classList.remove("display-none");
+	console.log(scrollAmount);
 	countryModalContainer.classList.add("display-none");
+	main.classList.remove("display-none");
 	countryModalContainer.innerHTML = "";
+	console.log(scrollAmount);
 	window.scroll({
 		top: scrollAmount,
 		left: 0,
@@ -366,8 +375,9 @@ const initListeners = async function () {
 	//MODAL
 	countriesContainer.addEventListener("click", (e) => {
 		countryModal(e, countriesArr);
-		scrollAmount = e.pageY;
+		scrollAmount = window.scrollY;
 	});
+
 	//BACK BUTTON AND BORDER COUNTRIES
 	countryModalContainer.addEventListener("click", (e) => {
 		if (e.target.classList.contains("button-back")) {
