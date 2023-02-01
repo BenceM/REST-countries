@@ -141,9 +141,7 @@ const CCodeToName = function (cca3, dataset) {
 // +BORDER COUNTRIES
 const countryModal = async function (e, countriesArr) {
 	console.log("im running");
-
 	const data = await getCountryData();
-
 	const parent = e.target.closest(".country")
 		? e.target.closest(".country")
 		: countriesArr
@@ -156,18 +154,20 @@ const countryModal = async function (e, countriesArr) {
 
 	const country = countriesArr.indexOf(parent);
 	if (country === -1) return;
-
+	console.log(data[country]);
 	const langs = Object.keys(data[country].languages);
 
 	const html = `
 	<div class="back-cont">
 	<button type="button" class="button-modal button-back box-shadow button">&larr; Back</button>
 	</div>
+	<div class="modal-img-cont">
 	<img
 		class="country-img-modal"
 		alt="${data[country].name.common} flag"
 		src=${data[country].flags.svg}
 	/>
+	</div>
 	<div class="country-data modal-data">
 		<h2 class="country-name country-name-modal">${data[country].name.common}</h2>
 		<div class="country-modal-1">
@@ -190,9 +190,9 @@ const countryModal = async function (e, countriesArr) {
 			</p>
 		</div>
 		<div class="country-modal-2">
-			<p class="country-line"><span>Top Level Domain:</span> ${data[country].tld.join(
-				" "
-			)}</p>
+			<p class="country-line"><span>Top Level Domain:</span> ${
+				data[country].tld?.join(" ") ?? "None"
+			}</p>
 			<p class="country-line"><span>Currencies:</span> ${
 				data[country]?.currencies
 					? Object.keys(data[country].currencies)
@@ -208,17 +208,15 @@ const countryModal = async function (e, countriesArr) {
 			<h3 class="border-text">Border Countries:</h3>
 			<div class="border-countries">
 			${
-				data[country]?.borders
-					? data[country]?.borders
-							.map(
-								(countryCode) =>
-									`<button type="button" value=${countryCode} class="button-modal button-border button">${CCodeToName(
-										countryCode,
-										data
-									)}</button>`
-							)
-							.join("")
-					: `<p>No land borders present</p>`
+				data[country].borders
+					?.map(
+						(countryCode) =>
+							`<button type="button" value=${countryCode} class="button-modal button-border button">${CCodeToName(
+								countryCode,
+								data
+							)}</button>`
+					)
+					.join("") ?? `<p>No land borders present</p>`
 			}
 			</div>
 		</div>

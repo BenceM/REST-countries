@@ -63,6 +63,7 @@ body {
 	line-height: 1;
 	font-weight: 300;
 	color: var(--text-color);
+	background-color: var(--main-background);
 }
 .main {
 	background-color: var(--main-background);
@@ -281,7 +282,7 @@ input[type="search"]::placeholder {
 	object-fit: contain;
 	margin-top: 5rem;
 	background-color: var(--main-background);
-	box-shadow: var(--box-shadow-buttons-modal);
+	/*box-shadow: var(--box-shadow-buttons-modal);*/
 }
 .modal-data {
 	padding: 4.4rem 0 0 0;
@@ -382,11 +383,17 @@ input[type="search"]::placeholder {
 	.back-cont {
 		grid-area: 1;
 	}
-	.country-img-modal {
+	.modal-img-cont {
 		grid-area: 2 / 1;
+		align-self: center;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.country-img-modal {
 		height: 80%;
 		margin-top: 0;
-		align-self: center;
 	}
 	.modal-data {
 		grid-area: 2 / 2;
