@@ -29,7 +29,7 @@ DARK MODE:
 10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
 
 - Spacing system (px)
-2 / 4 / 8 /10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+2 / 4 / 8 /10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 40 / 44 / 46 / 52 / 62 / 74 / 86 / 98
 
 
 ## Icons
@@ -84,6 +84,9 @@ body {
 .display-none {
 	display: none !important;
 }
+.button {
+	font-family: "Nunito Sans", sans-serif;
+}
 /**************************/
 /*********HEADER**********/
 /**************************/
@@ -92,7 +95,7 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 4.4rem 2.4rem;
+	padding: 4.4rem 1.8rem;
 	background-color: var(--secondary-background);
 	box-shadow: 0 0 0.5rem rgba(80, 80, 80, 0.2);
 	width: 100%;
@@ -106,7 +109,7 @@ body {
 	font-size: 1.6rem;
 	border: none;
 	cursor: pointer;
-	font-weight: 300;
+	font-weight: 600;
 	color: var(--text-color);
 	transition: color 0.2s;
 }
@@ -250,15 +253,22 @@ input[type="search"]::placeholder {
 }
 .country-line {
 	margin-bottom: 1.2rem;
+	font-size: 1.4rem;
 }
 .country-line:last-child {
 	margin-bottom: 4.2rem;
 }
-
-.country-modal-container {
+/**************************/
+/*******COUNTRY MODAL******/
+/**************************/
+.modal-wrapper {
+	height: 100vh;
 	background-color: var(--main-background);
+}
+.country-modal-container {
 	padding: 2.5rem 3.75rem 3rem 3.75rem;
 	color: var(--text-color);
+	height: 80%;
 	display: flex;
 	flex-direction: column;
 }
@@ -267,13 +277,14 @@ input[type="search"]::placeholder {
 }
 .country-img-modal {
 	width: 100%;
-	height: 18rem;
-	object-fit: cover;
+	height: 20rem;
+	object-fit: contain;
 	margin-top: 5rem;
+	background-color: var(--main-background);
 	box-shadow: var(--box-shadow-buttons-modal);
 }
 .modal-data {
-	padding: 3.6rem 0 0 0;
+	padding: 4.4rem 0 0 0;
 }
 .border-countries {
 	display: flex;
@@ -287,20 +298,21 @@ input[type="search"]::placeholder {
 	color: var(--text-color);
 	border: none;
 	padding: 1rem 4rem;
+	font-size: 1.6rem;
 }
 .button-border {
 	padding: 0.6rem 2rem;
 	box-shadow: var(--box-shadow-buttons-modal);
 }
-.country-modal-1,
-.country-modal-2 {
-	font-size: 1.2rem;
+.country-modal-1 .country-line,
+.country-modal-2 .country-line {
+	font-size: 1.6rem;
 }
 .border-text {
 	font-size: 1.6rem;
 }
 .country-name-modal {
-	font-size: 2rem;
+	font-size: 2.4rem;
 }
 .border-countries p {
 	font-size: 1.2rem;
@@ -311,11 +323,104 @@ input[type="search"]::placeholder {
 /*****MEDIA QUERIES********/
 /**************************/
 
-@media (min-width: 1440px) {
+@media (min-width: 768px) {
+	.search-box {
+		width: 70%;
+	}
+}
+@media (min-width: 1024px) {
+	.header {
+		padding: 4.4rem 3rem;
+	}
 	.dark-mode-button:hover {
 		color: hsl(201, 89%, 18%);
 	}
 	.dark .dark-mode-button:hover {
 		color: hsl(60, 94%, 55%);
+	}
+
+	.navigation {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.search-box {
+		width: 40%;
+	}
+	.cont {
+		flex-direction: row-reverse;
+	}
+	.countries {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		justify-items: center;
+		align-items: center;
+		gap: 3rem;
+	}
+}
+@media (min-width: 1440px) {
+	.header {
+		padding: 4.4rem 5rem;
+	}
+	.main {
+		padding: 3rem 5rem;
+	}
+	.countries {
+		grid-template-columns: repeat(4, 1fr);
+		gap: 4.66rem;
+	}
+
+	.country-modal-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 35.36px 1fr;
+		row-gap: 5rem;
+		column-gap: 7rem;
+		padding: 2.5rem 5rem 3rem 5rem;
+		align-items: center;
+	}
+	.back-cont {
+		grid-area: 1;
+	}
+	.country-img-modal {
+		grid-area: 2 / 1;
+		height: 80%;
+		margin-top: 0;
+		align-self: center;
+	}
+	.modal-data {
+		grid-area: 2 / 2;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 0.5fr 1.5fr 1fr;
+		row-gap: 1rem;
+		padding: 0;
+		height: 80%;
+		align-items: center;
+	}
+	.country-name-modal {
+		margin: 0;
+		align-self: end;
+	}
+	.country-modal-1 {
+		grid-area: 2 / 1;
+	}
+	.country-modal-2 {
+		grid-area: 2 / 2;
+		padding-top: 1rem;
+	}
+	.country-modal-1 .country-line,
+	.country-modal-2 .country-line {
+		margin-bottom: 1.6rem;
+	}
+	.country-modal-3 {
+		grid-area: 3 / 1 / 3 / 3;
+		display: flex;
+	}
+	.modal-line-last {
+		margin-bottom: 0 !important;
+	}
+	.border-text {
+		align-self: center;
 	}
 }

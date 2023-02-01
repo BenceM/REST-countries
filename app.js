@@ -4,6 +4,7 @@
 const countryModalContainer = document.querySelector(
 	".country-modal-container"
 );
+const modalWrapper = document.querySelector(".modal-wrapper");
 const main = document.querySelector(".main");
 const darkMode = document.querySelector(".dark-mode");
 const darkModeIcon = document.querySelector(".dark-mode-button");
@@ -160,7 +161,7 @@ const countryModal = async function (e, countriesArr) {
 
 	const html = `
 	<div class="back-cont">
-	<button type="button" class="button-modal button-back box-shadow">&larr; Back</button>
+	<button type="button" class="button-modal button-back box-shadow button">&larr; Back</button>
 	</div>
 	<img
 		class="country-img-modal"
@@ -170,7 +171,7 @@ const countryModal = async function (e, countriesArr) {
 	<div class="country-data modal-data">
 		<h2 class="country-name country-name-modal">${data[country].name.common}</h2>
 		<div class="country-modal-1">
-			<p class="country-line"><span>Native name:</span> ${
+			<p class="country-line"><span>Native Name:</span> ${
 				data[country].name.nativeName[
 					Object.keys(data[country].name.nativeName)[0]
 				]?.common
@@ -184,7 +185,7 @@ const countryModal = async function (e, countriesArr) {
 			<p class="country-line"><span>Sub Region:</span> ${
 				data[country].subregion ?? "Unknown"
 			}</p>
-			<p class="country-line">
+			<p class="country-line modal-line-last">
 				<span>Capital:</span> ${data[country].capital?.[0] ?? "None"}
 			</p>
 		</div>
@@ -199,7 +200,7 @@ const countryModal = async function (e, countriesArr) {
 							.join(", ")
 					: "Unknown"
 			}</p>
-			<p class="country-line"><span>Languages:</span> ${langs
+			<p class="country-line modal-line-last"><span>Languages:</span> ${langs
 				.map((key) => data[country].languages[key])
 				.join(", ")}</p>
 		</div>
@@ -211,7 +212,7 @@ const countryModal = async function (e, countriesArr) {
 					? data[country]?.borders
 							.map(
 								(countryCode) =>
-									`<button type="button" value=${countryCode} class="button-modal button-border">${CCodeToName(
+									`<button type="button" value=${countryCode} class="button-modal button-border button">${CCodeToName(
 										countryCode,
 										data
 									)}</button>`
@@ -222,6 +223,7 @@ const countryModal = async function (e, countriesArr) {
 			</div>
 		</div>
 	</div>`;
+	modalWrapper.classList.remove("display-none");
 	countryModalContainer.classList.remove("display-none");
 	main.classList.add("display-none");
 	countryModalContainer.innerHTML = html;
@@ -235,6 +237,7 @@ const countryModal = async function (e, countriesArr) {
 //BACK BUTTON IN MODAL
 const backButtonFn = (scrollAmount) => {
 	countryModalContainer.classList.add("display-none");
+	modalWrapper.classList.add("display-none");
 	main.classList.remove("display-none");
 	countryModalContainer.innerHTML = "";
 
