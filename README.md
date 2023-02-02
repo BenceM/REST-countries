@@ -37,7 +37,6 @@ I wanted to build this app using nothing, but plain HTML, CSS and Javascript. I 
 ### Screenshot
 
 ![](./pics/Ld.jpeg) ![](./pics/Lcd.jpeg)
-
 ![](./pics/md.jpeg) ![](./pics/mcd.jpeg)
 
 ### Links
