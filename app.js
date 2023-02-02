@@ -118,7 +118,6 @@ const renderCountryData = async function () {
 			countriesContainer.insertAdjacentHTML("beforeend", html);
 		}
 	}
-	console.log("finished");
 };
 
 //OBSERVER SELECTION
@@ -140,21 +139,30 @@ const CCodeToName = function (cca3, dataset) {
 
 // +BORDER COUNTRIES
 const countryModal = async function (e, countriesArr) {
-	console.log("im running");
 	const data = await getCountryData();
-	const parent = e.target.closest(".country")
-		? e.target.closest(".country")
-		: countriesArr
-				.filter(
-					(el) =>
-						el.querySelector(".country-name").textContent.toLowerCase() ===
-						e.target.textContent.toLowerCase()
-				)
-				.pop();
+	const parent =
+		e.target.closest(".country") ??
+		countriesArr
+			.filter(
+				(el) =>
+					el.querySelector(".country-name").textContent.toLowerCase() ===
+					e.target.textContent.toLowerCase()
+			)
+			.pop();
+
+	//const parent = e.target.closest(".country")
+	//? e.target.closest(".country")
+	//: countriesArr
+	//.filter(
+	//(el) =>
+	//	el.querySelector(".country-name").textContent.toLowerCase() ===
+	//	e.target.textContent.toLowerCase()
+	//	)
+	//	.pop();
 
 	const country = countriesArr.indexOf(parent);
 	if (country === -1) return;
-	console.log(data[country]);
+
 	const langs = Object.keys(data[country].languages);
 
 	const html = `
@@ -229,7 +237,6 @@ const countryModal = async function (e, countriesArr) {
 		top: 0,
 		left: 0,
 	});
-	console.log("im running end");
 };
 
 //BACK BUTTON IN MODAL
