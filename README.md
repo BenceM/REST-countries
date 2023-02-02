@@ -37,10 +37,10 @@ I wanted to build this app using nothing, but plain HTML, CSS and Javascript. I 
 ### Screenshot
 
 <p float="left">
-  <img src="./pics/Ld.jpeg" width="100" />
-  <img src="./pics/Lcd.jpeg" width="100" />
-  <img src="./pics/md.jpeg" width="100" />
-  <img src="./pics/mcd.jpeg" width="100" />
+  <img src="./pics/Ld.jpeg" width="200" height="400"/>
+  <img src="./pics/Lcd.jpeg" width="200" height="400"/>
+  <img src="./pics/md.jpeg" width="200" height="400"/>
+  <img src="./pics/mcd.jpeg" width="200" height="400"/>
 </p>
 
 ### Links
