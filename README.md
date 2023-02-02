@@ -36,8 +36,12 @@ I wanted to build this app using nothing, but plain HTML, CSS and Javascript. I 
 
 ### Screenshot
 
-![](./pics/Ld.jpeg) ![](./pics/Lcd.jpeg)
-![](./pics/md.jpeg) ![](./pics/mcd.jpeg)
+<p float="left">
+  <img src="./pics/Ld.jpeg" width="100" />
+  <img src="./pics/Lcd.jpeg" width="100" />
+  <img src="./pics/md.jpeg" width="100" />
+  <img src="./pics/mcd.jpeg" width="100" />
+</p>
 
 ### Links
 
