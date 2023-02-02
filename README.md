@@ -36,11 +36,9 @@ I wanted to build this app using nothing, but plain HTML, CSS and Javascript. I 
 
 ### Screenshot
 
-<p float="left">
-  <img src="./pics/Ld.jpeg" width="50" height="50"/>
-  <img src="./pics/Lcd.jpeg" width="50" height="50"/>
-  <img src="./pics/md.jpeg" width="50" height="50"/>
-  <img src="./pics/mcd.jpeg" width="50" height="50"/>
+<p>
+  <img src="./pics/Ld.jpeg" width="600" height="600"/>
+
 </p>
 
 ### Links
