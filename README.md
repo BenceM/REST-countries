@@ -97,6 +97,11 @@ Going forward I'd like to implement:
 - Frameworks
 - Simpler function designs
 
+Possible further improvements:
+
+- Making it Translator friendly by not using .textContent for lookups (Filter/ Search / Modal)
+- Optimising the API call
+
 ### Useful resources
 
 - [MDN](https://developer.mozilla.org/en-US/) - I spent most of my time reading through documentation on MDN.
